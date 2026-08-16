@@ -1,4 +1,4 @@
-package src;
+package model;
 
 // Aluno: Erick Ribeiro Graciano
 public class Empresa {
@@ -6,11 +6,14 @@ public class Empresa {
     String nome;
     int numEmpregados;
 
-    //Contrutor
+    //Construtor
     public Empresa(String cnpj, String nome, int numEmpregados) {
         this.cnpj = cnpj;
         this.nome = nome;
         this.numEmpregados = numEmpregados;
+    }
+    //Construtor vazio para o TDE2
+    public Empresa() {
     }
 
     //Getterts e Setters

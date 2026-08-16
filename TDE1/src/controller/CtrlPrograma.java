@@ -1,4 +1,4 @@
-package src.controller;
+package controller;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-import src.Empresa;
+import model.Empresa;
 
 // Aluno: Erick Ribeiro Graciano
 public class CtrlPrograma {
