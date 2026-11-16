@@ -1,6 +1,8 @@
 {
     "java.project.sourcePaths": [
         "TDE1/src",
-        "TDE2/src"
+        "TDE2/src",
+        "TDE4/src",
+        "TDE5/src",
     ]
 }
