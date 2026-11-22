@@ -1,0 +1,94 @@
+<!-- Aluno: Erick Ribeiro Graciano -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pessoas</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; }
+        form { display: grid; gap: 10px; margin-bottom: 24px; }
+        label { display: grid; gap: 4px; }
+        input { padding: 6px; }
+        button { padding: 8px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #999; padding: 6px; text-align: left; }
+        th { background: #eee; }
+        #mensagem { color: #b00020; }
+    </style>
+</head>
+<body>
+    <h1>Cadastro de Pessoas</h1>
+
+    <form id="formPessoa">
+        <label>CPF
+            <input type="text" id="cpf" required>
+        </label>
+        <label>Nome
+            <input type="text" id="nome" required>
+        </label>
+        <label>Idade
+            <input type="number" id="idade" min="0" required>
+        </label>
+        <button type="submit">Incluir</button>
+    </form>
+
+    <p id="mensagem"></p>
+
+    <h2>Pessoas cadastradas</h2>
+    <table>
+        <thead>
+            <tr><th>CPF</th><th>Nome</th><th>Idade</th></tr>
+        </thead>
+        <tbody id="tabelaPessoas"></tbody>
+    </table>
+
+    <script>
+        const form = document.getElementById("formPessoa");
+        const tabela = document.getElementById("tabelaPessoas");
+        const mensagem = document.getElementById("mensagem");
+
+        function exibirPessoas(pessoas) {
+            tabela.innerHTML = "";
+            pessoas.forEach(function (p) {
+                const linha = document.createElement("tr");
+                [p.cpf, p.nome, p.idade].forEach(function (valor) {
+                    const celula = document.createElement("td");
+                    celula.textContent = valor;
+                    linha.appendChild(celula);
+                });
+                tabela.appendChild(linha);
+            });
+        }
+
+        form.addEventListener("submit", async function (evento) {
+            evento.preventDefault();
+            mensagem.textContent = "";
+
+            const pessoa = {
+                cpf: document.getElementById("cpf").value.trim(),
+                nome: document.getElementById("nome").value.trim(),
+                idade: parseInt(document.getElementById("idade").value, 10)
+            };
+
+            try {
+                const resposta = await fetch("rest/pessoas", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                    body: JSON.stringify(pessoa)
+                });
+
+                if (!resposta.ok) {
+                    throw new Error("Erro " + resposta.status);
+                }
+
+                exibirPessoas(await resposta.json());
+                form.reset();
+            } catch (erro) {
+                mensagem.textContent = "Falha ao cadastrar: " + erro.message;
+            }
+        });
+    </script>
+</body>
+</html>
